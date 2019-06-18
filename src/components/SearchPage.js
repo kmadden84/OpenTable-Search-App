@@ -16,7 +16,7 @@ export default class SearchPage extends Component {
   }
 
   setSearchState = (query) => {
-    var url = "http://opentable.herokuapp.com/api/restaurants?city=" + query;
+    var url = "https://opentable.herokuapp.com/api/restaurants?city=" + query;
     return new Promise((resolve, reject) => {
       fetch(url, {
         method: "GET",
