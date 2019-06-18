@@ -6,8 +6,137 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+@font-face {
+  font-family: 'milkshake';
+  src:  url('../src/fonts/Milkshake.ttf') format('truetype'),
+        url('../src/fonts/Milkshake.otf') format('opentype');
+}
+.mainHeader {
+  font-family: 'milkshake';
+  text-align: center;
+  margin-top: 37px;
+  font-size: 51px;
+}
+
+.grid-33 {
+  width: 30.5%;
+  margin-left: 1%;
+  background: #242582;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  min-height: 270px;
+  display: inline-flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+.grid-33 h3, .grid-33 h4 {
+  margin: 0;
+  padding: 0;
+}
+h3.rest--add {
+  min-height: 52px;
+}
+h4.rest--name {
+  text-transform: capitalize;
+  min-height: 50px;
+}
+.grid-33:nth-child(3n+1) {
+  margin-left: 0;
+}
+
+.results{
+  display: block;
+  margin: 0 auto;
+  max-width: 1280px;
+  position: relative;
+  text-align: center;
+}
+h4.rest--name {
+  text-transform: capitalize;
+}
+form.search-form {
+  margin-bottom: 60px;
+  margin-top: 25px;
+}
+
+.search-form button {
+  outline: none;
+  background-color: #438bbd;
+  border: none;
+  padding: 0px 15px;
+  border-radius: 0 0.35em 0.35em 0;
+  cursor: pointer;
+  display: inline-block;
+}
+.search-form {
+  max-width: 460px;
+  display: flex;
+  margin: 0 auto 32px;
+}
+
+.search-form button {
+  outline: none;
+  background-color: #438bbd;
+  border: none;
+  padding: 0px 15px;
+  border-radius: 0 0.35em 0.35em 0;
+  cursor: pointer;
+}
+p.noresults {
+  text-align: center;
+}
+a {
+  color: #fff;
+}
+input {
+  font-size: 1em;
+  width: 100%;
+  background-color: #edeff0;
+  padding: 10px 15px;
+  border: 3px solid #d7dbdf;
+  border-right: none;
+  border-radius: 0.35em 0 0 0.35em;
+  outline: none;
+}
+.innerContent {
+  background: #438bbd;
+  border-radius: 10px;
+  padding: 60px;
+  background-image: url('../src/images/menu.png');
+  background-size: 19%;
+  background-repeat: no-repeat;
+  background-blend-mode: soft-light;
+}
+
+@media(max-width: 900px) {
+  .grid-33:nth-child(2n+2) {
+    margin-left: 1%;
+}
+  .grid-33{
+      width: 48.5%;
+      margin-left: 0;
+    }
+} 
+@media(max-width: 680px) {
+  .grid-33:nth-child(2n+2) {
+    margin-left: 0%;
+}
+  .grid-33{
+      width: 95%;
+      margin-left: 0;
+    }
+} 
