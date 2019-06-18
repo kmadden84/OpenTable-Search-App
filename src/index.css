@@ -118,6 +118,7 @@ input {
   padding: 60px;
   background-image: url('../src/images/menu.png');
   background-size: 19%;
+  min-height: 270px;
   background-repeat: no-repeat;
   background-blend-mode: soft-light;
 }
