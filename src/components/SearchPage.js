@@ -64,10 +64,10 @@ export default class SearchPage extends Component {
           price = "$$"
           break;
         case 3:
-          price = "$$"
+          price = "$$$"
           break;
         case 4:
-          price = "$$"
+          price = "$$$$"
           break;
         default:
       }
