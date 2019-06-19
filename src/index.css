@@ -141,7 +141,10 @@ input {
   background-repeat: no-repeat;
   background-blend-mode: soft-light;
 }
-
+.pageButtons * {
+  display: inline;
+  margin: 0 8px 0px;
+}
 @media(max-width: 900px) {
   .grid-33:nth-child(2n+2) {
     margin-left: 1%;

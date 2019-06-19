@@ -123,6 +123,15 @@ export default class SearchPage extends Component {
           </div>
         )
       }
+      var prevPageNum = this.state.page -1;
+
+      if (this.state.page > 1) {
+      var prevPage = '(page' + prevPageNum + ')';
+      }
+      else {
+        var prevPage = "";
+      }
+
     }
 
     return (
@@ -146,10 +155,10 @@ export default class SearchPage extends Component {
 
           {
             (this.state.query && !this.state.nocontent || !this.state.nocontent && this.state.endoflist)
-              ? <div><button onClick={this.pageChange.bind(this, 'sub')} className="bottom">
-                {(this.state.pages <= this.state.page) ? <span>End of List (Prev)</span>: <span>Prev</span> }
-                </button>
-                <button onClick={this.pageChange.bind(this, 'add')} className="bottom">Next </button>
+              ? <div class="pageButtons"><button onClick={this.pageChange.bind(this, 'sub')} className="bottom">
+                {(this.state.pages <= this.state.page) ? <span>End of List (Prev)</span>: <span>Prev {prevPage} </span> }
+                </button> <p>Current page: {this.state.page}</p>
+                <button onClick={this.pageChange.bind(this, 'add')} className="bottom">Next (page {this.state.page + 1}) </button>
                 </div>
               : ""
           }
