@@ -54,9 +54,9 @@ h4.rest--name {
   text-transform: capitalize;
   min-height: 50px;
 }
-.grid-33:nth-child(3n+1) {
+/* .grid-33:nth-child(3n+1) {
   margin-left: 0;
-}
+} */
 
 .results{
   display: block;
@@ -87,6 +87,25 @@ form.search-form {
   display: flex;
   margin: 0 auto 32px;
 }
+
+button.bottom {
+  padding: 2px 6px 3px;
+  border-width: 2px;
+  border-style: none;
+  border-color: none;
+  border-image: none;
+  width: 200px;
+  height: 45px;
+  margin-bottom: 53px;
+  color: none;
+  background: #242582;
+  color: #fff;
+  font-weight: bold;
+}
+button.bottom:nth-child(2) {
+  margin-left:20px;
+}
+
 
 .search-form button {
   outline: none;
