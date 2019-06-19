@@ -11,7 +11,8 @@ export default class SearchPage extends Component {
       query: "",
       nocontent: false,
       endoflist: false,
-      page: 1
+      page: 1,
+      pages: ""
     }
     this.setSearchState = this.setSearchState.bind(this);
     // this.pageChange = this.pageChange.bind(this);
@@ -23,20 +24,23 @@ export default class SearchPage extends Component {
 
 
   pageChange = (type) => {
-    if (type == 'add' && !this.state.nocontent) {
+    if (type == 'add' && this.state.page < this.state.pages) {
       this.setState(prevState => {
         return { page: prevState.page + 1 }
+      }, function() {
+        this.setSearchState(this.state.query);
       });
     }
-    if (type == 'sub' && this.state.page >= 2) {
+    if (type == 'sub' && this.state.page > 1) {
       this.setState(prevState => {
         return { page: prevState.page - 1 }
+      }, function() {
+        console.log(this.state.page)
+        this.setSearchState(this.state.query);
       });
     }
-    console.log(this.state.page)
-    this.setSearchState(this.state.query);
-  }
 
+  }
   setSearchState = (query) => {
 
     var page = this.state.page;
@@ -51,10 +55,16 @@ export default class SearchPage extends Component {
           response.json().then((responseJson) => {
             console.log(responseJson)
             resolve(responseJson)
+    const total_pages = responseJson.total_entries;
+    const per_page = responseJson.per_page;
+    let pages = total_pages / per_page;
+    pages = Math.ceil(pages);
+    pages = parseInt(pages, 10) ;
             this.setState({
               content: responseJson,
               nocontent: false,
-              query: query
+              query: query,
+              pages: pages
             })
             if (responseJson && responseJson.restaurants == 0) {
               this.setState({
@@ -114,14 +124,6 @@ export default class SearchPage extends Component {
         )
       }
     }
-    const total_pages = this.state.content.total_entries;
-    const per_page = this.state.content.per_page;
-    let pages = total_pages / per_page;
-    pages = Math.ceil(pages);
-    //pages = parseInt(pages, 10) + 1;
-    //console.log(typeof(pages))
-    //var foo = new Array(pages).fill(0);
-    //console.log(foo.length)
 
     return (
       <div className="container">
@@ -137,15 +139,18 @@ export default class SearchPage extends Component {
           {
             (this.state.endoflist)
               ? <div><p className="noresults">please hit Prev you've gone too far.</p>
-                <button onClick={this.pageChange.bind(this, 'sub')} className="bottom">Prev </button></div>
+                <button onClick={this.pageChange.bind(this, 'clear')} className="bottom">Back to beginning</button></div>
               : ""
           }
           {restaurantTile}
 
           {
             (this.state.query && !this.state.nocontent || !this.state.nocontent && this.state.endoflist)
-              ? <div><button onClick={this.pageChange.bind(this, 'add')} className="bottom">Next </button>
-                <button onClick={this.pageChange.bind(this, 'sub')} className="bottom">Prev </button></div>
+              ? <div><button onClick={this.pageChange.bind(this, 'sub')} className="bottom">
+                {(this.state.pages <= this.state.page) ? <span>End of List (Prev)</span>: <span>Prev</span> }
+                </button>
+                <button onClick={this.pageChange.bind(this, 'add')} className="bottom">Next </button>
+                </div>
               : ""
           }
         </div>
