@@ -151,7 +151,7 @@ export default class SearchPage extends Component {
             (this.state.query && !this.state.nocontent || !this.state.nocontent && this.state.endoflist)
               ? <div class="pageButtons"><button onClick={this.pageChange.bind(this, 'sub')} className="bottom">
                 {(this.state.pages <= this.state.page) ? <span>End of List (Prev)</span>: <span>Prev {prevPage} </span> }
-                </button> <p>Current page: {this.state.page}</p>
+                </button> <p>Current page: {this.state.page} / {this.state.pages}</p>
                 <button onClick={this.pageChange.bind(this, 'add')} className="bottom">Next (page {this.state.page + 1}) </button>
                 </div>
               : ""
