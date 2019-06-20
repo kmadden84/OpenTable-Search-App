@@ -42,7 +42,9 @@ export default class SearchPage extends Component {
 
   }
   setSearchState = (query) => {
-
+    this.setState({
+      page: 1
+    })
     var page = this.state.page;
     var url = "https://opentable.herokuapp.com/api/restaurants?city=" + query + "&per_page=25&page=" + page;
     console.log(url)
