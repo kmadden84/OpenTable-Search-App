@@ -145,12 +145,6 @@ export default class SearchPage extends Component {
               ? <p className="noresults">No results. Please try another city.</p>
               : ""
           }
-          {
-            (this.state.endoflist)
-              ? <div><p className="noresults">please hit Prev you've gone too far.</p>
-                <button onClick={this.pageChange.bind(this, 'clear')} className="bottom">Back to beginning</button></div>
-              : ""
-          }
           {restaurantTile}
 
           {
