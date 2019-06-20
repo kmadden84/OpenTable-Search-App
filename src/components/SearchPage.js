@@ -27,14 +27,14 @@ export default class SearchPage extends Component {
     if (type == 'add' && this.state.page < this.state.pages) {
       this.setState(prevState => {
         return { page: prevState.page + 1 }
-      }, function() {
+      }, function () {
         this.setSearchState(this.state.query);
       });
     }
     if (type == 'sub' && this.state.page > 1) {
       this.setState(prevState => {
         return { page: prevState.page - 1 }
-      }, function() {
+      }, function () {
         console.log(this.state.page)
         this.setSearchState(this.state.query);
       });
@@ -43,54 +43,55 @@ export default class SearchPage extends Component {
   }
   setSearchState = (query) => {
 
-    var page = this.state.page;
-    var url = "https://opentable.herokuapp.com/api/restaurants?city=" + query + "&per_page=25&page=" + page;
-    console.log(url)
-    return new Promise((resolve, reject) => {
-      fetch(url, {
-        method: "GET",
-        mode: "cors",
-      })
-        .then((response) => {
-          response.json().then((responseJson) => {
-            console.log(responseJson)
-            resolve(responseJson)
-    const total_pages = responseJson.total_entries;
-    const per_page = responseJson.per_page;
-    let pages = total_pages / per_page;
-    pages = Math.ceil(pages);
-    pages = parseInt(pages, 10) ;
-            this.setState({
-              content: responseJson,
-              nocontent: false,
-              query: query,
-              pages: pages
+    this.setState({
+      query: query
+    })
+    this.setState(prevState => {
+      return { page: (prevState.query && prevState.query != this.state.query) ? 1 : this.state.page || 1 }
+    }, function () {
+      var page = this.state.page;
+      var url = "https://opentable.herokuapp.com/api/restaurants?city=" + this.state.query + "&per_page=25&page=" + page;
+      return new Promise((resolve, reject) => {
+        fetch(url, {
+          method: "GET",
+          mode: "cors",
+        })
+          .then((response) => {
+            response.json().then((responseJson) => {
+              resolve(responseJson)
+              const total_pages = responseJson.total_entries;
+              const per_page = responseJson.per_page;
+              let pages = total_pages / per_page;
+              pages = Math.ceil(pages);
+              pages = parseInt(pages, 10);
+              this.setState({
+                content: responseJson,
+                nocontent: false,
+                query: query,
+                pages: pages
+              })
+              if (responseJson && responseJson.restaurants == 0) {
+                this.setState({
+                  nocontent: true
+                })
+              }
+              if (responseJson && responseJson.restaurants == 0 && this.state.page > 2)
+                this.setState({
+                  endoflist: true
+                })
             })
-            if (responseJson && responseJson.restaurants == 0) {
-              this.setState({
-                nocontent: true
-              })
-            }
-            if (responseJson && responseJson.restaurants== 0 && this.state.page > 2)
-              this.setState({
-                endoflist: true
-              })
           })
-        })
-        .catch((error) => {
-          reject(error);
-          this.props.history.push("/error")
-        })
+          .catch((error) => {
+            reject(error);
+            this.props.history.push("/error")
+          })
+      })
     })
   }
 
   render(props) {
-
     var restaurantTile = [];
-
-
     if (this.state.content.restaurants) {
-
       for (var i = 0; i < this.state.content.restaurants.length; i++) {
         var name = this.state.content.restaurants[i].name;
         var city = this.state.content.restaurants[i].city;
@@ -123,37 +124,33 @@ export default class SearchPage extends Component {
           </div>
         )
       }
-      var prevPageNum = this.state.page -1;
+      var prevPageNum = this.state.page - 1;
 
       if (this.state.page > 1) {
-      var prevPage = '(page' + prevPageNum + ')';
+        var prevPage = '(page' + prevPageNum + ')';
       }
       else {
         var prevPage = "";
       }
-
     }
-
     return (
       <div className="container">
         <h1 class="mainHeader">OpenTable Restaurant Search</h1>
         <Search data={this.setSearchState} />
         <div class="results">
-
           {
             (this.state.nocontent && !this.state.endoflist)
               ? <p className="noresults">No results. Please try another city.</p>
               : ""
           }
           {restaurantTile}
-
           {
             (this.state.query && !this.state.nocontent || !this.state.nocontent && this.state.endoflist)
               ? <div class="pageButtons"><button onClick={this.pageChange.bind(this, 'sub')} className="bottom">
-                {(this.state.pages <= this.state.page) ? <span>End of List (Prev)</span>: <span>Prev {prevPage} </span> }
-                </button> <p>Current page: {this.state.page} / {this.state.pages}</p>
+                {(this.state.pages <= this.state.page) ? <span>End of List (Prev)</span> : <span>Prev {prevPage} </span>}
+              </button> <p>Current page: {this.state.page} / {this.state.pages}</p>
                 <button onClick={this.pageChange.bind(this, 'add')} className="bottom">Next (page {this.state.page + 1}) </button>
-                </div>
+              </div>
               : ""
           }
         </div>
